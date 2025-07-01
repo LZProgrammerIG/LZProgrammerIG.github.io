@@ -156,3 +156,90 @@ document.addEventListener('DOMContentLoaded', function () {
         track.scrollBy({ left: -imageWidth, behavior: 'smooth' });
     });
 });
+
+document.addEventListener('DOMContentLoaded', () => {
+    const carouselContainer = document.querySelector('.carousel-container');
+    const carouselTrack = document.querySelector('.carousel-track');
+    const carouselImages = Array.from(document.querySelectorAll('.carousel-image'));
+    const prevButton = document.querySelector('.carousel-button.prev');
+    const nextButton = document.querySelector('.carousel-button.next');
+
+    let currentIndex = 0;
+    const aspectRatio = 16 / 9; // Desired aspect ratio for maximum height (width * 9 / 16)
+
+    // Function to update carousel display based on the active image
+    function updateCarousel() {
+        const currentImage = carouselImages[currentIndex];
+
+        // 1. Calculate the maximum allowed height for the current container width
+        //    We get the actual rendered width of the track (which is 100% of container)
+        const containerWidth = carouselTrack.clientWidth;
+        const maxAllowedHeight = containerWidth * (9 / aspectRatio); // Using 9/16 for 16:9 ratio
+
+        // 2. Adjust carousel container height based on image's natural height or maxAllowedHeight
+        const img = new Image();
+        img.src = currentImage.src;
+
+        img.onload = () => {
+            const naturalHeight = img.naturalHeight;
+            const naturalWidth = img.naturalWidth;
+
+            // Remove previous force-fit class
+            carouselImages.forEach(imgEl => imgEl.classList.remove('force-fit'));
+
+            if (naturalHeight > maxAllowedHeight) {
+                // If natural height is greater than max allowed, force fit and set container height to max
+                currentImage.style.height = `${maxAllowedHeight}px`;
+                currentImage.classList.add('force-fit'); // Apply object-fit: fill
+                carouselContainer.style.height = `${maxAllowedHeight}px`;
+            } else {
+                // If natural height is less or equal, maintain aspect ratio and set container height to natural height
+                // We need to calculate the scaled height if the width is constrained to containerWidth
+                const scaledHeight = containerWidth * (naturalHeight / naturalWidth);
+                currentImage.style.height = `${scaledHeight}px`;
+                currentImage.style.objectFit = 'contain'; // Ensure contain is active
+                carouselContainer.style.height = `${scaledHeight}px`;
+            }
+            
+            // Scroll to the current image
+            carouselTrack.scrollLeft = currentImage.offsetLeft;
+        };
+
+        // Handle image loading errors (optional)
+        img.onerror = () => {
+            console.error('Failed to load image:', currentImage.src);
+            // Fallback to a default height or error image height
+            carouselContainer.style.height = `${containerWidth * (9 / aspectRatio)}px`; // Default to max height
+            currentImage.style.height = `${containerWidth * (9 / aspectRatio)}px`;
+            currentImage.classList.add('force-fit'); // Force fit in case of error
+            carouselTrack.scrollLeft = currentImage.offsetLeft;
+        };
+    }
+
+    // Navigation functions
+    function goToNextSlide() {
+        currentIndex = (currentIndex + 1) % carouselImages.length;
+        updateCarousel();
+    }
+
+    function goToPrevSlide() {
+        currentIndex = (currentIndex - 1 + carouselImages.length) % carouselImages.length;
+        updateCarousel();
+    }
+
+    // Event Listeners
+    nextButton.addEventListener('click', goToNextSlide);
+    prevButton.addEventListener('click', goToPrevSlide);
+
+    // Initial update
+    updateCarousel();
+
+    // Recalculate on window resize to adjust container height and object-fit dynamically
+    let resizeTimeout;
+    window.addEventListener('resize', () => {
+        clearTimeout(resizeTimeout);
+        resizeTimeout = setTimeout(() => {
+            updateCarousel();
+        }, 100); // Debounce to avoid excessive recalculations
+    });
+});
