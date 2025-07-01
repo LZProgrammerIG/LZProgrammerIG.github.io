@@ -511,3 +511,55 @@ footer {
     pointer-events: all;
     transition: opacity 0.3s ease;
 }
+.carousel-container {
+    position: relative;
+    overflow: hidden;
+    max-width: 800px;
+    margin: 0 auto;
+    border-radius: 16px;
+    box-shadow: 0 6px 20px var(--shadow-glow);
+}
+
+.carousel-track {
+    display: flex;
+    scroll-snap-type: x mandatory;
+    overflow-x: auto;
+    scroll-behavior: smooth;
+    -webkit-overflow-scrolling: touch;
+}
+
+.carousel-image {
+    flex-shrink: 0;
+    width: 100%;
+    max-height: 450px;
+    object-fit: cover;
+    scroll-snap-align: center;
+    border-radius: 16px;
+}
+
+.carousel-button {
+    position: absolute;
+    top: 50%;
+    transform: translateY(-50%);
+    background: rgba(255, 255, 255, 0.6);
+    border: none;
+    font-size: 2rem;
+    padding: 8px 12px;
+    cursor: pointer;
+    z-index: 2;
+    transition: background 0.3s ease;
+    border-radius: 50%;
+    backdrop-filter: blur(5px);
+}
+
+.carousel-button:hover {
+    background: rgba(252, 216, 205, 0.8);
+}
+
+.carousel-button.prev {
+    left: 16px;
+}
+
+.carousel-button.next {
+    right: 16px;
+}
