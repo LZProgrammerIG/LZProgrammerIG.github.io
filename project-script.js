@@ -156,3 +156,99 @@ document.addEventListener('DOMContentLoaded', function () {
         track.scrollBy({ left: -imageWidth, behavior: 'smooth' });
     });
 });
+document.addEventListener('DOMContentLoaded', () => {
+    const carouselContainer = document.querySelector('.carousel-container');
+    const carouselTrack = document.querySelector('.carousel-track');
+    const carouselImages = Array.from(document.querySelectorAll('.carousel-image'));
+    const prevButton = document.querySelector('.carousel-button.prev');
+    const nextButton = document.querySelector('.carousel-button.next');
+
+    if (!carouselContainer || !carouselTrack || carouselImages.length === 0) {
+        return; // Exit if carousel elements don't exist
+    }
+
+    let currentIndex = 0;
+
+    // Function to update carousel display based on the active image
+    function updateCarousel() {
+        const currentImage = carouselImages[currentIndex];
+        const containerWidth = carouselContainer.clientWidth;
+        const maxAllowedHeight = containerWidth * (9 / 16); // 16:9 ratio
+
+        // Create a new image to get natural dimensions
+        const img = new Image();
+        img.src = currentImage.src;
+
+        img.onload = () => {
+            const naturalWidth = img.naturalWidth;
+            const naturalHeight = img.naturalHeight;
+
+            // Calculate what the height would be if we scale to fit the container width
+            const scaledHeight = containerWidth * (naturalHeight / naturalWidth);
+
+            // Reset all images
+            carouselImages.forEach(imgEl => {
+                imgEl.style.objectFit = 'contain';
+                imgEl.style.height = 'auto';
+            });
+
+            if (scaledHeight > maxAllowedHeight) {
+                // Image is too tall - force fit into 16:9 rectangle
+                currentImage.style.height = `${maxAllowedHeight}px`;
+                currentImage.style.objectFit = 'fill'; // Ignore aspect ratio
+                carouselContainer.style.height = `${maxAllowedHeight}px`;
+            } else {
+                // Image fits within max height - maintain aspect ratio
+                currentImage.style.height = `${scaledHeight}px`;
+                currentImage.style.objectFit = 'contain'; // Maintain aspect ratio
+                carouselContainer.style.height = `${scaledHeight}px`;
+            }
+
+            // Set height for all images to match container
+            carouselImages.forEach(imgEl => {
+                if (imgEl !== currentImage) {
+                    imgEl.style.height = carouselContainer.style.height;
+                }
+            });
+            
+            // Scroll to the current image
+            carouselTrack.scrollLeft = currentImage.offsetLeft;
+        };
+
+        img.onerror = () => {
+            console.error('Failed to load image:', currentImage.src);
+            // Fallback to max height
+            carouselContainer.style.height = `${maxAllowedHeight}px`;
+            currentImage.style.height = `${maxAllowedHeight}px`;
+            currentImage.style.objectFit = 'fill';
+            carouselTrack.scrollLeft = currentImage.offsetLeft;
+        };
+    }
+
+    // Navigation functions
+    function goToNextSlide() {
+        currentIndex = (currentIndex + 1) % carouselImages.length;
+        updateCarousel();
+    }
+
+    function goToPrevSlide() {
+        currentIndex = (currentIndex - 1 + carouselImages.length) % carouselImages.length;
+        updateCarousel();
+    }
+
+    // Event Listeners
+    if (nextButton) nextButton.addEventListener('click', goToNextSlide);
+    if (prevButton) prevButton.addEventListener('click', goToPrevSlide);
+
+    // Initial update
+    updateCarousel();
+
+    // Recalculate on window resize
+    let resizeTimeout;
+    window.addEventListener('resize', () => {
+        clearTimeout(resizeTimeout);
+        resizeTimeout = setTimeout(() => {
+            updateCarousel();
+        }, 100);
+    });
+});

@@ -511,25 +511,16 @@ footer {
     pointer-events: all;
     transition: opacity 0.3s ease;
 }
-:root {
-    --shadow-glow: rgba(0, 0, 0, 0.4); /* Example, define as needed */
-    --primary-dark: #333; /* Example, define as needed */
-}
-
 .carousel-container {
     position: relative;
     width: 100%;
-    max-width: 800px; /* This sets your fixed max width for the container */
+    max-width: 800px;
     margin: 0 auto;
     background-color: #0b0603;
     border-radius: 16px;
     box-shadow: 0 6px 20px var(--shadow-glow);
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    padding: 0;
-    /* Height will be determined by content or max-height of images */
-    overflow: hidden; /* Ensures no content overflows vertically from the container */
+    overflow: hidden;
+    /* Height will be set dynamically by JavaScript */
 }
 
 .carousel-track {
@@ -538,63 +529,22 @@ footer {
     overflow-x: auto;
     scroll-behavior: smooth;
     width: 100%;
+    height: 100%;
     -webkit-overflow-scrolling: touch;
-    /* No fixed height here, it will adapt to the images */
-    align-items: center; /* Vertically centers images if they are smaller than the track */
+    scrollbar-width: none; /* Firefox */
+    -ms-overflow-style: none; /* IE and Edge */
+}
+
+.carousel-track::-webkit-scrollbar {
+    display: none; /* Chrome, Safari and Opera */
 }
 
 .carousel-image {
-    width: 100%; /* Image always takes 100% of the track width */
+    width: 100%;
+    flex-shrink: 0;
     display: block;
     scroll-snap-align: center;
     border-radius: 16px;
-    background-color: #0b0603;
-    flex-shrink: 0; /* Important: Prevents images from shrinking */
-
-    /* This is the core logic for height: */
-    max-height: calc(var(--carousel-width, 800px) * 9 / 16); /* Max height 16/9 of the container's *effective* width */
-    object-fit: contain; /* Default: contains image within bounds, maintaining aspect ratio */
-}
-
-/* JavaScript will dynamically set a custom property on .carousel-container
-   to reflect its actual computed width, which .carousel-image will then use. */
-.carousel-container[style*="--carousel-width"] .carousel-image {
-    max-height: calc(var(--carousel-width) * 9 / 16);
-}
-
-/* When the image height is greater than max-height, force fit by ignoring aspect ratio */
-/* This requires JavaScript to detect and apply a class if the natural height is too large. */
-.carousel-image.force-fit {
-    object-fit: fill; /* Stretches/squishes the image to fit the max-height, ignoring aspect ratio */
-}
-
-/* --- */
-
-/* Buttons */
-.carousel-button {
-    position: absolute;
-    top: 50%;
-    transform: translateY(-50%);
-    background: rgba(216, 215, 221, 0.425);
-    border: none;
-    font-size: 2rem;
-    padding: 8px 12px;
-    cursor: pointer;
-    z-index: 2;
-    transition: background 0.3s ease;
-    border-radius: 5%;
-    backdrop-filter: blur(5px);
-    color: var(--primary-dark);
-}
-
-.carousel-button:hover {
-    background: rgba(252, 216, 205, 0.8);
-}
-
-.carousel-button.prev {
-    left: 16px;
-}
-
-.carousel-button.next {
-    right: 16px;
+    object-fit: contain; /* Default: maintain aspect ratio */
+    /* Height will be set dynamically by JavaScript */
 }
