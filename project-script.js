@@ -156,7 +156,6 @@ document.addEventListener('DOMContentLoaded', function () {
         track.scrollBy({ left: -imageWidth, behavior: 'smooth' });
     });
 });
-
 document.addEventListener('DOMContentLoaded', () => {
     const carouselContainer = document.querySelector('.carousel-container');
     const carouselTrack = document.querySelector('.carousel-track');
@@ -164,54 +163,64 @@ document.addEventListener('DOMContentLoaded', () => {
     const prevButton = document.querySelector('.carousel-button.prev');
     const nextButton = document.querySelector('.carousel-button.next');
 
+    if (!carouselContainer || !carouselTrack || carouselImages.length === 0) {
+        return; // Exit if carousel elements don't exist
+    }
+
     let currentIndex = 0;
-    const aspectRatio = 16 / 9; // Desired aspect ratio for maximum height (width * 9 / 16)
 
     // Function to update carousel display based on the active image
     function updateCarousel() {
         const currentImage = carouselImages[currentIndex];
+        const containerWidth = carouselContainer.clientWidth;
+        const maxAllowedHeight = containerWidth * (9 / 16); // 16:9 ratio
 
-        // 1. Calculate the maximum allowed height for the current container width
-        //    We get the actual rendered width of the track (which is 100% of container)
-        const containerWidth = carouselTrack.clientWidth;
-        const maxAllowedHeight = containerWidth * (9 / aspectRatio); // Using 9/16 for 16:9 ratio
-
-        // 2. Adjust carousel container height based on image's natural height or maxAllowedHeight
+        // Create a new image to get natural dimensions
         const img = new Image();
         img.src = currentImage.src;
 
         img.onload = () => {
-            const naturalHeight = img.naturalHeight;
             const naturalWidth = img.naturalWidth;
+            const naturalHeight = img.naturalHeight;
 
-            // Remove previous force-fit class
-            carouselImages.forEach(imgEl => imgEl.classList.remove('force-fit'));
+            // Calculate what the height would be if we scale to fit the container width
+            const scaledHeight = containerWidth * (naturalHeight / naturalWidth);
 
-            if (naturalHeight > maxAllowedHeight) {
-                // If natural height is greater than max allowed, force fit and set container height to max
+            // Reset all images
+            carouselImages.forEach(imgEl => {
+                imgEl.style.objectFit = 'contain';
+                imgEl.style.height = 'auto';
+            });
+
+            if (scaledHeight > maxAllowedHeight) {
+                // Image is too tall - force fit into 16:9 rectangle
                 currentImage.style.height = `${maxAllowedHeight}px`;
-                currentImage.classList.add('force-fit'); // Apply object-fit: fill
+                currentImage.style.objectFit = 'fill'; // Ignore aspect ratio
                 carouselContainer.style.height = `${maxAllowedHeight}px`;
             } else {
-                // If natural height is less or equal, maintain aspect ratio and set container height to natural height
-                // We need to calculate the scaled height if the width is constrained to containerWidth
-                const scaledHeight = containerWidth * (naturalHeight / naturalWidth);
+                // Image fits within max height - maintain aspect ratio
                 currentImage.style.height = `${scaledHeight}px`;
-                currentImage.style.objectFit = 'contain'; // Ensure contain is active
+                currentImage.style.objectFit = 'contain'; // Maintain aspect ratio
                 carouselContainer.style.height = `${scaledHeight}px`;
             }
+
+            // Set height for all images to match container
+            carouselImages.forEach(imgEl => {
+                if (imgEl !== currentImage) {
+                    imgEl.style.height = carouselContainer.style.height;
+                }
+            });
             
             // Scroll to the current image
             carouselTrack.scrollLeft = currentImage.offsetLeft;
         };
 
-        // Handle image loading errors (optional)
         img.onerror = () => {
             console.error('Failed to load image:', currentImage.src);
-            // Fallback to a default height or error image height
-            carouselContainer.style.height = `${containerWidth * (9 / aspectRatio)}px`; // Default to max height
-            currentImage.style.height = `${containerWidth * (9 / aspectRatio)}px`;
-            currentImage.classList.add('force-fit'); // Force fit in case of error
+            // Fallback to max height
+            carouselContainer.style.height = `${maxAllowedHeight}px`;
+            currentImage.style.height = `${maxAllowedHeight}px`;
+            currentImage.style.objectFit = 'fill';
             carouselTrack.scrollLeft = currentImage.offsetLeft;
         };
     }
@@ -228,18 +237,18 @@ document.addEventListener('DOMContentLoaded', () => {
     }
 
     // Event Listeners
-    nextButton.addEventListener('click', goToNextSlide);
-    prevButton.addEventListener('click', goToPrevSlide);
+    if (nextButton) nextButton.addEventListener('click', goToNextSlide);
+    if (prevButton) prevButton.addEventListener('click', goToPrevSlide);
 
     // Initial update
     updateCarousel();
 
-    // Recalculate on window resize to adjust container height and object-fit dynamically
+    // Recalculate on window resize
     let resizeTimeout;
     window.addEventListener('resize', () => {
         clearTimeout(resizeTimeout);
         resizeTimeout = setTimeout(() => {
             updateCarousel();
-        }, 100); // Debounce to avoid excessive recalculations
+        }, 100);
     });
 });
