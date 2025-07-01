@@ -11,32 +11,42 @@
 <body>
 
     <header>
-        <h1>Project One</h1>
-        <p>Action Platformer | Unreal Engine | C++ | Blueprints</p>
+        <h1>Simple Shooter</h1>
+        <p>Third Person Shooter | Unreal Engine | C++ | Blueprints</p>
     </header>
 
     <main>
         <section class="overview">
             <h2>Overview</h2>
-            <p>This is a fast-paced action platformer built in Unreal Engine 5 using C++ and Blueprints. Core mechanics
-                include double-jump, enemy AI, and level transitions with a focus on smooth gameplay and responsive
-                controls.</p>
+            <p>This is a very simple third person shooter built in Unreal Engine 5 using C++ and Blueprints. The main objective of the player is to reach the control room, eliminating all hostile enemies along the way.</p>
         </section>
 
         <section class="features">
             <h2>Key Features</h2>
             <div class="feature-grid">
                 <div class="feature-item">
-                    <h3>Custom Movement Controller</h3>
-                    <p>Built in C++ for precise character control and responsiveness</p>
+                    <h3>Custom Game Mode</h3>
+                    <p>Built in C++ for handling win and lose conditions.</p>
+                </div>
+                <div class="feature-item">
+                    <h3>AI Controller</h3>
+                    <p>A C++ class which is responsible for starting the behaviour tree and communicates with Game Mode class when an enemy is killed.</p>
                 </div>
                 <div class="feature-item">
                     <h3>Enemy AI System</h3>
-                    <p>Advanced behavior trees for intelligent enemy interactions</p>
+                    <p>Intelligent Enemy AI using behavior trees with custom task and service nodes created in C++.</p>
                 </div>
                 <div class="feature-item">
-                    <h3>Dynamic Camera System</h3>
-                    <p>Smooth camera transitions with shake and zoom effects</p>
+                    <h3>User Interface</h3>
+                    <p>Heads up display along with win and lose screen created in Blueprints using Unreal Motion Graphics.</p>
+                </div>
+                <div class="feature-item">
+                    <h3>Exciting Gunplay</h3>
+                    <p>A thrilling and exciting gunplay implemented using a C++ hitscan gun class which handles damage done to player / enemy.</p>
+                </div>
+                <div class="feature-item">
+                    <h3>Fully animated characters</h3>
+                    <p>All characters are fully animated, capable of executing different animations using Animation Blueprint and Blendspaces.</p>
                 </div>
             </div>
         </section>
@@ -45,18 +55,16 @@
             <h2>Media</h2>
             <div class="media-container">
                 <div class="placeholder-image">
-                    <span>Project Screenshot</span>
-                    <p>Game footage and screenshots would be displayed here</p>
+                    <img src="images/SimpleShooter-facility.png" alt="Facility image">
+                    <img src="images/SimpleShooter-ControlRoom.png" alt="Control Room image">
+                    <img src="images/SimpleShooter-SpawnLocation.png" alt="Spawn Location image">
                 </div>
             </div>
         </section>
 
         <section class="links">
-            <h2>Code & Demo</h2>
+            <h2>Demo</h2>
             <div class="link-buttons">
-                <a href="https://github.com/YOUR_USERNAME/project-one" target="_blank" class="btn btn-github">
-                    <span>View on GitHub</span>
-                </a>
                 <a href="https://youtu.be/YOUR_DEMO" target="_blank" class="btn btn-demo">
                     <span>Watch Demo</span>
                 </a>
@@ -69,7 +77,7 @@
     </main>
 
     <footer>
-        &copy; 2025 Your Name — Game Developer
+        &copy; 2025 Ishan Name — Game Developer
     </footer>
 
     <script src="project-script.js"></script>
