@@ -529,13 +529,13 @@ footer {
 }
 
 .carousel-image {
-    flex-shrink: 0;
     width: 100%;
-    max-height: 450px;
-    object-fit: cover;
+    height: auto;
+    display: block;
     scroll-snap-align: center;
     border-radius: 16px;
 }
+
 
 .carousel-button {
     position: absolute;
