@@ -521,7 +521,7 @@ footer {
     position: relative;
     overflow: hidden;
     max-width: 1000px;
-    max-height: 562px;
+    height: 562px;
     margin: 0 auto;
     border-radius: 16px;
     box-shadow: 0 6px 20px var(--shadow-glow);
