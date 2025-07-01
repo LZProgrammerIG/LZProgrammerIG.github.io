@@ -141,3 +141,18 @@ function addCursorTrail() {
         trail.style.top = `${e.clientY}px`;
     });
 }
+
+document.addEventListener('DOMContentLoaded', function () {
+    const track = document.querySelector('.carousel-track');
+    const nextBtn = document.querySelector('.carousel-button.next');
+    const prevBtn = document.querySelector('.carousel-button.prev');
+    const imageWidth = track.offsetWidth;
+
+    nextBtn.addEventListener('click', () => {
+        track.scrollBy({ left: imageWidth, behavior: 'smooth' });
+    });
+
+    prevBtn.addEventListener('click', () => {
+        track.scrollBy({ left: -imageWidth, behavior: 'smooth' });
+    });
+});
