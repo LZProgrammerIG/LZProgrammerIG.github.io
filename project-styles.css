@@ -375,6 +375,11 @@ h2::after {
     transform: translateX(-4px);
 }
 
+.link{    
+    display: flex;
+    justify-content: space-between;
+}
+
 .back-link span {
     display: flex;
     align-items: center;
