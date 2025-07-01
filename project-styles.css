@@ -511,6 +511,7 @@ footer {
     pointer-events: all;
     transition: opacity 0.3s ease;
 }
+
 :root {
     --shadow-glow: rgba(0, 0, 0, 0.4); /* Example, define as needed */
     --primary-dark: #333; /* Example, define as needed */
