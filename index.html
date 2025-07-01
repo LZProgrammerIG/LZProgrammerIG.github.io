@@ -4,169 +4,7 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
   <title>Your Name | Unreal Game Developer</title>
-  <style>
-    :root {
-      --bg: #0e0e0e;
-      --card-bg: #1a1a1a;
-      --accent: #00afff;
-      --text: #f4f4f4;
-      --muted: #aaa;
-      --border: #2c2c2c;
-      --font: 'Segoe UI', sans-serif;
-    }
-
-    * {
-      box-sizing: border-box;
-    }
-
-    body {
-      margin: 0;
-      font-family: var(--font);
-      background-color: var(--bg);
-      color: var(--text);
-      line-height: 1.6;
-    }
-
-    header {
-      background: linear-gradient(135deg, #111, #1f1f1f);
-      padding: 60px 20px 40px;
-      text-align: center;
-    }
-
-    header h1 {
-      font-size: 3rem;
-      margin-bottom: 10px;
-    }
-
-    header p {
-      font-size: 1.2rem;
-      color: var(--muted);
-    }
-
-    section {
-      padding: 60px 20px;
-      max-width: 1000px;
-      margin: auto;
-    }
-
-    h2 {
-      font-size: 2rem;
-      border-bottom: 2px solid var(--border);
-      padding-bottom: 10px;
-      margin-bottom: 30px;
-    }
-
-    .tech-stack {
-      display: flex;
-      justify-content: center;
-      flex-wrap: wrap;
-      gap: 15px;
-    }
-
-    .tech {
-      background: var(--card-bg);
-      padding: 12px 20px;
-      border-radius: 8px;
-      border: 1px solid var(--border);
-      font-weight: 500;
-    }
-
-    .projects {
-      display: grid;
-      grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
-      gap: 20px;
-    }
-
-    .project-card {
-      background: var(--card-bg);
-      border: 1px solid var(--border);
-      border-radius: 10px;
-      padding: 20px;
-      transition: transform 0.2s ease, border 0.2s ease;
-    }
-
-    .project-card:hover {
-      transform: translateY(-5px);
-      border-color: var(--accent);
-    }
-
-    .project-title {
-      font-size: 1.3rem;
-      margin-bottom: 8px;
-      color: var(--accent);
-    }
-
-    .project-desc {
-      font-size: 0.95rem;
-      color: var(--muted);
-    }
-
-    .about {
-      background-color: #121212;
-      border-radius: 10px;
-      padding: 30px;
-      line-height: 1.8;
-    }
-
-    .about p {
-      margin-bottom: 1em;
-    }
-
-    .contact-form {
-      background-color: var(--card-bg);
-      padding: 30px;
-      border-radius: 10px;
-      border: 1px solid var(--border);
-    }
-
-    .contact-form label {
-      display: block;
-      margin-bottom: 5px;
-      font-weight: bold;
-    }
-
-    .contact-form input,
-    .contact-form textarea {
-      width: 100%;
-      padding: 10px;
-      margin-bottom: 20px;
-      border-radius: 6px;
-      border: 1px solid var(--border);
-      background-color: #101010;
-      color: var(--text);
-    }
-
-    .contact-form button {
-      background-color: var(--accent);
-      border: none;
-      padding: 10px 20px;
-      border-radius: 6px;
-      color: #fff;
-      font-weight: bold;
-      cursor: pointer;
-    }
-
-    .contact-form button:hover {
-      background-color: #008acc;
-    }
-
-    a {
-      color: var(--accent);
-      text-decoration: none;
-    }
-
-    a:hover {
-      text-decoration: underline;
-    }
-
-    footer {
-      text-align: center;
-      padding: 30px;
-      background: #101010;
-      color: var(--muted);
-      font-size: 0.9rem;
-    }
-  </style>
+  <link rel="stylesheet" href="styles.css">
 </head>
 <body>
 
@@ -197,30 +35,29 @@
   <section>
     <h2>Projects</h2>
     <div class="projects">
-  <a href="project1.html" class="project-card">
-    <div class="project-title">Project One</div>
-    <div class="project-desc">An action platformer developed in UE5 using C++ and Blueprints.</div>
-  </a>
-  <a href="project2.html" class="project-card">
-    <div class="project-title">Project Two</div>
-    <div class="project-desc">Multiplayer prototype with replication and performance focus.</div>
-  </a>
-</div>
-
+      <a href="project1.html" class="project-card">
+        <div class="project-title">Project One</div>
+        <div class="project-desc">An action platformer developed in UE5 using C++ and Blueprints.</div>
+      </a>
+      <a href="project2.html" class="project-card">
+        <div class="project-title">Project Two</div>
+        <div class="project-desc">Multiplayer prototype with replication and performance focus.</div>
+      </a>
+    </div>
   </section>
 
   <section>
     <h2>Contact Me</h2>
     <div class="contact-form">
-      <form action="mailto:your.email@example.com" method="POST" enctype="text/plain">
+      <form id="contact-form">
         <label for="name">Name</label>
-        <input type="text" id="name" name="Name" required>
+        <input type="text" id="name" name="name" required>
 
         <label for="email">Email</label>
-        <input type="email" id="email" name="Email" required>
+        <input type="email" id="email" name="email" required>
 
         <label for="message">Message</label>
-        <textarea id="message" name="Message" rows="6" required></textarea>
+        <textarea id="message" name="message" rows="6" required></textarea>
 
         <button type="submit">Send Message</button>
       </form>
@@ -236,5 +73,6 @@
     &copy; 2025 Your Name — Game Developer. All rights reserved.
   </footer>
 
+  <script src="script.js"></script>
 </body>
 </html>
